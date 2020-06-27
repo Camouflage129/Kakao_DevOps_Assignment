@@ -1,0 +1,32 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: SPDJ-TEST-EKS
+  region: ap-northeast-2
+
+managedNodeGroups:
+  - name: SPDJ-TEST-NODE4
+    instanceType: t3.medium
+    minSize: 2
+    maxSize: 2
+    desiredCapacity: 2
+    amiFamily: AmazonLinux2
+    volumeSize: 50
+    privateNetworking: true
+    labels:
+      role: worker
+    tags:
+      nodegroup-role: worker
+    ssh:
+      allow: true
+      publicKeyName: SPDJ-TEST-KEY
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+        imageBuilder: true
+        ebs: true
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly

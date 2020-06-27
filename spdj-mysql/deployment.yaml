@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spdj-mysql
+spec:
+  selector:
+    matchLabels:
+      app: spdj-mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spdj-mysql
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: failure-domain.beta.kubernetes.io/zone
+                operator: In
+                values:
+                - ap-northeast-2a
+      containers:
+      - image: camouflage129/spdj-mysql:0.1.1
+        imagePullPolicy: Always
+        name: spdj-mysql
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: spdj-mysql-pvc

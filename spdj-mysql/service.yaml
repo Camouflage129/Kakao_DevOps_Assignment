@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: spdj-mysql
+    service: spdj-mysql
+  name: spdj-mysql
+spec:
+  ports:
+    - port: 3306
+      name: mysql
+      protocol: TCP
+  selector:
+    app: spdj-mysql
