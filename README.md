@@ -32,7 +32,8 @@
 
       2. 리소스 삭제
          1. kubernetes 리소스 삭제
-            - cd kubectl_apply/remove.sh
+            - cd kubectl_apply
+            - ./remove.sh
          2. Nodegroup & Cluster 삭제
             - cd /eksctl
             - eksctl delete nodegroup --config-file=nodegroup.yaml
